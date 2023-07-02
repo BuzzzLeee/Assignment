@@ -1,0 +1,87 @@
+POST  http://localhost:2000/login
+Content-Type: application/json
+Authorization: Bearer 
+
+{
+    "Username": "abu",
+    "Password": "667"
+}
+####
+
+POST  http://localhost:2000/register
+Content-Type: application/json
+Authorization: Bearer
+
+{
+    "Username": "abu",
+    "Password": "667",
+    "name":"abu",
+    "email":"abu@gmail.com"
+}
+
+#############
+POST  http://localhost:2000/create-visit
+Content-Type: application/json
+
+{
+    "visitorId": "38",
+    "visitorName" : "fthia",
+    "gender" : "female",
+    "citizenship" : "Malaysia",
+    "visitorAddress" : "Selayang",
+    "phoneNo" : "012345678999",
+    "vehicleNo" : "abc123",
+    "hostId": "12345",
+    "visitDate":"22-10-2023",
+    "place" : "cafeteria",
+    "purpose":"jual ayam"
+}
+
+#################################
+DELETE http://localhost:2000/delete-visit/6495cb0fcb296c6d8e49f3ad
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2ODc1NTMzODEsImV4cCI6MTY4NzU1Njk4MX0.Cgs-TRikGwAp6ykKjbiNOp8nmTKDYIHh_BgfDUP2Df4
+
+############################################
+GET http://localhost:2000/visit-details
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2ODc1NTQ4MDUsImV4cCI6MTY4NzU1ODQwNX0.lw7U2y9sQ0-U97Flx4ATegl74HSgKD62aKq-f1W7lHw
+
+################
+PATCH http://localhost:2000/update-visit/6495cb0ccb296c6d8e49f3aa
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2ODc1NTMzODEsImV4cCI6MTY4NzU1Njk4MX0.Cgs-TRikGwAp6ykKjbiNOp8nmTKDYIHh_BgfDUP2Df4
+
+{
+  "visitorId": "1999999999999999999",
+  "visitorName": "John Doe",
+  "gender": "Male",
+  "citizenship": "USA",
+  "visitorAddress": "123 Main St",
+  "phoneNo": "123-456-7890"
+}
+
+#####################################
+POST http://localhost:2000/register-security
+Content-Type: application/json
+Authorization: Bearer 
+{
+    
+    "name": "John Doe",
+    "id": "SG001",
+    "workshift": "Day",
+    "duration": "08:00",
+    "date": "23:06:23"
+  
+}
+
+####################
+POST  http://localhost:2000/login-security
+Content-Type: application/json
+
+{
+    "id": "SG001",
+    "name": "John Doe"
+}
+
+###########
