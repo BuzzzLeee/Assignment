@@ -1,12 +1,19 @@
 const { error } = require('console');
-const express = require('express')
-const app = express()
-const port = 2000
+const express = require('express');
+const app = express();
+const port = 2000;
 const jwt = require('jsonwebtoken');
+const cors = require('cors');
+
 
 // MongoDB setup
 const { MongoClient } = require('mongodb');
 const uri = 'mongodb+srv://Bazli:Bazli35@cluster0.maezorf.mongodb.net/HotelVisitorManagement';
+
+const swaggerUi = require('swagger-ui-express');
+const swaggerDocument = require('./swagger.json');
+app.use(cors());
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 
 //const client = new MongoClient(uri);
@@ -61,6 +68,38 @@ MongoClient.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true })
    } finally {
      await client.close();
    }
+  }
+
+  async function registerAdmin(reqUsername, reqPassword, reqName, reqEmail) {
+    const client = new MongoClient(uri);
+    try {
+      await client.connect();
+  
+      // Validate the request payload
+      if (!reqUsername || !reqPassword || !reqName || !reqEmail) {
+        throw new Error('Missing required fields');
+      }
+  
+      // Check if the admin with the same username already exists
+      const existingAdmin = await adminCollection.findOne({ Username: reqUsername });
+      if (existingAdmin) {
+        throw new Error('Admin with this username already exists');
+      }
+  
+      await adminCollection.insertOne({
+        Username: reqUsername,
+        Password: reqPassword,
+        name: reqName,
+        email: reqEmail,
+      });
+  
+      return 'Admin Registration Complete!!';
+    } catch (error) {
+      console.error('Admin Registration Error:', error);
+      throw new Error('An error occurred during admin registration.');
+    } finally {
+      await client.close();
+    }
   }
 
   async function register(reqUsername, reqPassword, reqName, reqEmail) {
@@ -282,6 +321,18 @@ MongoClient.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true })
       });
   });
   
+  app.post('/register-admin', (req, res) => {
+    console.log(req.body);
+  
+    registerAdmin(req.body.Username, req.body.Password, req.body.name, req.body.email)
+      .then((result) => {
+        res.send(result);
+      })
+      .catch((error) => {
+        res.status(400).send(error.message);
+      });
+  });
+
 
   app.post('/login-security', (req, res) => {
     console.log(req.body);
