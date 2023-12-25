@@ -53,4 +53,4 @@ jobs:
           app-name: 'CondoVisitorManagement'
           slot-name: 'Production'
           package: .
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_6159A279A9BF44D8BF0E0669F7B5D0F7 }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_4F973307EECC4E23A3B45780E40B912A }}
