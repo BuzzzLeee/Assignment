@@ -1,21 +1,26 @@
 swagger: '2.0'
 info:
-  version: '1.0.0'
-  title: Hotel Visitor Management API
-  description: API for managing hotel visitors
-host: 'localhost:2000'
-basePath: '/'
+  version: 1.0.0
+  title: Condo Visitor Management API
+  description: API for Condo visitor management
+host: localhost:2000
+basePath: /
 schemes:
-  - 'http'
+  - http
+
+securityDefinitions:
+  BearerAuth:
+    type: apiKey
+    name: Authorization
+    in: header
+
 tags:
-  - name: 'Authentication'
-    description: 'User authentication and authorization'
-  - name: 'Admin'
-    description: 'Operations for admin users'
-  - name: 'User'
-    description: 'Operations for regular users'
-  - name: 'Visitor'
-    description: 'Operations for visitors'
+  - name: User
+    description: Endpoints for User operations
+  - name: Admin
+    description: Endpoints for Admin operations
+  - name: Visitor
+    description: Endpoints for Visitor operations
 
 paths:
   /login:
@@ -23,7 +28,7 @@ paths:
       summary: User login
       description: Allows a user to login with a username and password.
       tags:
-        - 'Authentication'
+        - User
       consumes:
         - application/json
       produces:
@@ -44,55 +49,16 @@ paths:
               Password:
                 type: string
       responses:
-        '200':
+        200:
           description: Login successful
           schema:
             type: object
             properties:
               token:
                 type: string
-        '400':
+        400:
           description: Bad request, when the user credentials are not provided or are incorrect
-        '500':
-          description: Internal server error
-
-  /admin/login:
-    post:
-      summary: Admin login
-      description: Allows an administrator to login with a username and password.
-      tags:
-        - 'Authentication'
-        - 'Admin'
-      consumes:
-        - application/json
-      produces:
-        - application/json
-      parameters:
-        - in: body
-          name: body
-          description: Admin login credentials
-          required: true
-          schema:
-            type: object
-            required:
-              - AdminUsername
-              - AdminPassword
-            properties:
-              AdminUsername:
-                type: string
-              AdminPassword:
-                type: string
-      responses:
-        '200':
-          description: Admin login successful
-          schema:
-            type: object
-            properties:
-              adminToken:
-                type: string
-        '400':
-          description: Bad request, when the admin credentials are not provided or are incorrect
-        '500':
+        500:
           description: Internal server error
 
   /register:
@@ -100,7 +66,7 @@ paths:
       summary: User registration
       description: Allows a new user to register.
       tags:
-        - 'User'
+        - User
       consumes:
         - application/json
       produces:
@@ -127,50 +93,31 @@ paths:
               email:
                 type: string
       responses:
-        '200':
+        200:
           description: Registration successful
-        '400':
+        400:
           description: Bad request, when the registration data is incomplete
-        '500':
+        500:
           description: Internal server error
 
   /create-visit:
     post:
-      summary: Create a new visit
-      description: Allows the creation of a new visit with visitor and host details.
       tags:
-        - 'Visitor'
-      consumes:
-        - application/json
-      produces:
-        - application/json
+        - User
+        - Visitor
+      summary: Create a Visit
+      description: Create a new visitor record
       parameters:
-        - in: body
-          name: visit
-          description: Object containing visit details
+        - name: body
+          in: body
           required: true
           schema:
             type: object
-            required:
-              - visitorId
-              - visitorName
-              - gender
-              - citizenship
-              - visitorAddress
-              - phoneNo
-              - vehicleNo
-              - hostId
-              - visitDate
-              - place
-              - purpose
             properties:
-              visitorId:
-                type: string
               visitorName:
                 type: string
               gender:
                 type: string
-                enum: [male, female, other]
               citizenship:
                 type: string
               visitorAddress:
@@ -183,113 +130,90 @@ paths:
                 type: string
               visitDate:
                 type: string
-                format: date-time
               place:
                 type: string
               purpose:
                 type: string
       responses:
-        '200':
+        200:
           description: Visit created successfully
-        '400':
-          description: Bad request, when required fields are missing
-        '500':
-          description: Internal server error
+        400:
+          description: Bad request or missing required fields
 
-  /admin/visits:
+  /register-admin:
     post:
-      summary: Create a new visit 
-      description: Allows an admin to create a new visit record.
+      summary: Admin registration
+      description: Allows an admin to register with username, password, name, and email.
       tags:
-        - 'Admin'
+        - Admin
       consumes:
         - application/json
       produces:
         - application/json
       parameters:
         - in: body
-          name: visit
-          description: Object containing visit details
+          name: body
+          description: Admin registration data
           required: true
           schema:
             type: object
             required:
-              - visitorId
-              - visitorName
-              - gender
-              - citizenship
-              - visitorAddress
-              - phoneNo
-              - vehicleNo
-              - hostId
-              - visitDate
-              - place
-              - purpose
+              - Username
+              - Password
+              - name
+              - email
             properties:
-              visitorId:
+              Username:
                 type: string
-              visitorName:
+              Password:
                 type: string
-              gender:
+              name:
                 type: string
-                enum: [male, female, other]
-              citizenship:
-                type: string
-              visitorAddress:
-                type: string
-              phoneNo:
-                type: string
-              vehicleNo:
-                type: string
-              hostId:
-                type: string
-              visitDate:
-                type: string
-                format: date-time
-              place:
-                type: string
-              purpose:
+              email:
                 type: string
       responses:
-        '200':
-          description: Visit created successfully
-        '400':
-          description: Bad request, when required fields are missing
-        '500':
+        200:
+          description: Admin registration successful
+        400:
+          description: Bad request, when the registration data is incomplete
+        500:
           description: Internal server error
 
-  /admin/visits/{visitId}:
-    get:
-      summary: Get a specific visit
-      description: Allows the admin to retrieve a specific visit by ID.
+  /login-admin:
+    post:
       tags:
-        - 'Admin'
-      produces:
-        - application/json
+        - Admin
+      summary: Admin Login
+      description: Authenticate an admin user
       parameters:
-        - in: path
-          name: visitId
-          type: string
+        - name: body
+          in: body
           required: true
-          description: The ID of the visit to retrieve
-      responses:
-        '200':
-          description: Visit details
           schema:
-            $ref: '#/definitions/Visit'
-        '404':
-          description: Visit not found
-        '500':
-          description: Internal server error
+            type: object
+            properties:
+              Username:
+                type: string
+              Password:
+                type: string
+      responses:
+        200:
+          description: Admin logged in successfully
+        400:
+          description: Bad request or invalid credentials
+
+  /update-visit:
     patch:
-      summary: Update a specific visit 
+      summary: Update a specific visit
       description: Allows the admin to update a specific visit record.
       tags:
-        - 'Admin'
+        - Admin
       consumes:
         - application/json
       produces:
         - application/json
+      security:
+        - BearerAuth: []
       parameters:
         - in: path
           name: visitId
@@ -307,7 +231,10 @@ paths:
                 type: string
               gender:
                 type: string
-                enum: [male, female, other]
+                enum:
+                  - male
+                  - female
+                  - other
               citizenship:
                 type: string
               visitorAddress:
@@ -326,19 +253,23 @@ paths:
               purpose:
                 type: string
       responses:
-        '200':
+        200:
           description: Visit updated successfully
-        '400':
+        400:
           description: Bad request, when required fields are missing or invalid
-        '404':
+        404:
           description: Visit not found
-        '500':
+        500:
           description: Internal server error
+
+  /delete-visit:
     delete:
-      summary: Delete a specific visit 
+      summary: Delete a specific visit
       description: Allows the admin to delete a specific visit by ID.
       tags:
-        - 'Admin'
+        - Admin
+      security:
+        - BearerAuth : []       
       parameters:
         - in: path
           name: visitId
@@ -346,12 +277,33 @@ paths:
           required: true
           description: The ID of the visit to delete
       responses:
-        '200':
+        200:
           description: Visit deleted successfully
-        '404':
+        404:
           description: Visit not found
-        '500':
+        500:
           description: Internal server error
+
+
+  /visit-details:
+    get:
+      tags:
+        - Admin
+      summary: Get Visit Details
+      description: Retrieve a list of visit details (admin only)
+      security:
+        - BearerAuth: []
+      parameters:
+        - in: query
+          name: visitId
+          type: string
+          required: true
+          description: The ID of the visit to retrieve
+      responses:
+        200:
+          description: List of visit details retrieved successfully
+        500:
+          description: An error occurred while retrieving visit details
 
 definitions:
   Visit:
@@ -366,7 +318,10 @@ definitions:
         type: string
       gender:
         type: string
-        enum: [male, female, other]
+        enum:
+          - male
+          - female
+          - other
       citizenship:
         type: string
       visitorAddress:
