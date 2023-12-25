@@ -1,35 +1,67 @@
+################################
+######     User Login     ######    
+################################
 POST  http://localhost:2000/login
 Content-Type: application/json
 Authorization: Bearer 
 
 {
     "Username": "abu",
-    "Password": "667"
+    "Password": "123"
 }
-####
 
+###################################
+######     User Register     ######    
+###################################
 POST  http://localhost:2000/register
 Content-Type: application/json
 Authorization: Bearer
 
 {
     "Username": "abu",
-    "Password": "667",
-    "name":"abu",
-    "email":"abu@gmail.com"
+    "Password": "123",
+    "name":"aahh",
+    "email":"aahh@gmail.com"
 }
 
-#############
+####################################
+######     Admin Register     ######    
+####################################
+POST http://localhost:2000/register-admin
+Content-Type: application/json
+Authorization: Bearer
+
+{
+    "Username": "aaa",
+    "Password": "12345",
+    "name": "abu",
+    "email": "abu@example.com"
+}
+
+#################################
+######     Admin Login     ######    
+#################################
+POST  http://localhost:2000/login-admin
+Content-Type: application/json
+Authorization: Bearer 
+
+{
+    "Username": "aaa",
+    "Password": "12345"
+}
+
+##################################
+######     Create Visit     ######    
+##################################
 POST  http://localhost:2000/create-visit
 Content-Type: application/json
 
 {
-    "visitorId": "38",
-    "visitorName" : "fthia",
-    "gender" : "female",
+    "visitorName" : "bali",
+    "gender" : "male",
     "citizenship" : "Malaysia",
     "visitorAddress" : "Selayang",
-    "phoneNo" : "012345678999",
+    "phoneNo" : "012999",
     "vehicleNo" : "abc123",
     "hostId": "12345",
     "visitDate":"22-10-2023",
@@ -37,17 +69,27 @@ Content-Type: application/json
     "purpose":"jual ayam"
 }
 
-#################################
-DELETE http://localhost:2000/delete-visit/6495cb0fcb296c6d8e49f3ad
+##################################
+######     Delete Visit     ######    
+##################################
+DELETE http://localhost:2000/delete-visit/658944b721210e13fffe9c66
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2ODc1NTMzODEsImV4cCI6MTY4NzU1Njk4MX0.Cgs-TRikGwAp6ykKjbiNOp8nmTKDYIHh_BgfDUP2Df4
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3MDM0OTQ5ODYsImV4cCI6MTcwMzQ5ODU4Nn0.8NqC3-jVNxG_R9ZDVg5RbjStbpYRXJO1xfg3YT1Ggjs
 
-############################################
+
+
+#######################################
+######     Get Visit Details     ######    
+#######################################
 GET http://localhost:2000/visit-details
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2ODc1NTQ4MDUsImV4cCI6MTY4NzU1ODQwNX0.lw7U2y9sQ0-U97Flx4ATegl74HSgKD62aKq-f1W7lHw
 
-################
+
+
+##################################
+######     Update Visit     ######    
+##################################
 PATCH http://localhost:2000/update-visit/6495cb0ccb296c6d8e49f3aa
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2ODc1NTMzODEsImV4cCI6MTY4NzU1Njk4MX0.Cgs-TRikGwAp6ykKjbiNOp8nmTKDYIHh_BgfDUP2Df4
@@ -61,10 +103,46 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2ODc1NTMzO
   "phoneNo": "123-456-7890"
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 #####################################
 POST http://localhost:2000/register-security
 Content-Type: application/json
-Authorization: Bearer 
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3MDM0ODU0NjIsImV4cCI6MTcwMzQ4OTA2Mn0.AsZqI2exQRNq1VFRDFhdUGfeqpHHTu_W5I2evIbKeXY
 {
     
     "name": "John Doe",
@@ -83,5 +161,3 @@ Content-Type: application/json
     "id": "SG001",
     "name": "John Doe"
 }
-
-###########
