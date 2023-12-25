@@ -6,7 +6,7 @@ const jwt = require('jsonwebtoken');
 const cors = require('cors');
 
 //express.json
-//app.use(express.json())
+app.use(express.json())
 
 // MongoDB setup
 const { MongoClient } = require('mongodb');
