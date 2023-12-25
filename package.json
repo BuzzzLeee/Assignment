@@ -11,6 +11,6 @@
   }
 }
 
-"scripts": {
-  "start": "node assignment.js"
-},
+//"scripts": {
+  //"start": "node assignment.js"
+//},
