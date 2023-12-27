@@ -1,21 +1,33 @@
 const { error } = require('console');
 const express = require('express');
 const app = express();
-const port = 2000;
+const port =  process.env.PORT || 2000;
 const jwt = require('jsonwebtoken');
 const cors = require('cors');
+const path = require('path'); 
+const mongouri = process.env.Mongodb;
 
 //express.json
 app.use(express.json())
 
+// app.use(express.static(path.join(__dirname,'public')));
+
+// app.get('/',(req, res) =>{
+//     res.sendFile(path.join(__dirname,'public', 'login.html'));
+// });
+
+
+
 // MongoDB setup
 const { MongoClient } = require('mongodb');
-const uri = 'mongodb+srv://Bazli:Bazli35@cluster0.maezorf.mongodb.net/CondoVisitorManagement';
+//const uri = 'mongodb+srv://Bazli:Bazli35@cluster0.maezorf.mongodb.net/CondoVisitorManagement';
+const uri = 'mongodb+srv://bazli:buzz12345@cluster0.dziqul4.mongodb.net/true&authSource=admin';
 
 const swaggerUi = require('swagger-ui-express');
 const swaggerDocument = require('./swagger.json');
 app.use(cors());
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+
 
 
 //const client = new MongoClient(uri);
@@ -412,7 +424,7 @@ MongoClient.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true })
   
 
   app.listen(port, () => {
-    console.log(`Example app listening on port ${port}`);
+    console.log(`app listening on port ${port}`);
   });
 })
   .catch(err => {
